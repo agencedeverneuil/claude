@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <pattern id="stripes-14" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="black" stroke-width="1.2"/>
+    </pattern>
+    <clipPath id="clip-14">
+      <path d="M50,85 L15,50 A18,18 0 0,1 50,30 A18,18 0 0,1 85,50 Z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip-14)">
+    <rect x="0" y="0" width="50" height="100" fill="url(#stripes-14)"/>
+    <rect x="50" y="0" width="50" height="100" fill="black"/>
+  </g>
+  <path d="M50,85 L15,50 A18,18 0 0,1 50,30 A18,18 0 0,1 85,50 Z"
+        fill="none" stroke="black" stroke-width="2" stroke-linejoin="miter"/>
+  <line x1="50" y1="30" x2="50" y2="85" stroke="black" stroke-width="2"/>
+</svg>

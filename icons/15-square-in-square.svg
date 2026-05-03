@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <pattern id="stripes-15" patternUnits="userSpaceOnUse" width="5" height="5">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="black" stroke-width="1.2"/>
+    </pattern>
+    <mask id="mask-15">
+      <rect x="0" y="0" width="100" height="100" fill="white"/>
+      <rect x="35" y="35" width="30" height="30" fill="black"/>
+    </mask>
+  </defs>
+  <rect x="15" y="15" width="70" height="70" fill="url(#stripes-15)" mask="url(#mask-15)"/>
+  <rect x="15" y="15" width="70" height="70" fill="none" stroke="black" stroke-width="2"/>
+  <rect x="35" y="35" width="30" height="30" fill="black" stroke="black" stroke-width="2"/>
+</svg>

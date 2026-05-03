@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <pattern id="stripes-07" patternUnits="userSpaceOnUse" width="5" height="5">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="black" stroke-width="1.2"/>
+    </pattern>
+    <clipPath id="clip-07">
+      <polygon points="35,10 65,10 90,35 90,65 65,90 35,90 10,65 10,35"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip-07)">
+    <rect x="10" y="10" width="40" height="40" fill="url(#stripes-07)"/>
+    <rect x="50" y="50" width="40" height="40" fill="black"/>
+  </g>
+  <polygon points="35,10 65,10 90,35 90,65 65,90 35,90 10,65 10,35"
+           fill="none" stroke="black" stroke-width="2" stroke-linejoin="miter"/>
+  <line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="2"/>
+  <line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="2"/>
+</svg>

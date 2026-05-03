@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <pattern id="stripes-18" patternUnits="userSpaceOnUse" width="5" height="5">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="black" stroke-width="1.2"/>
+    </pattern>
+  </defs>
+  <circle cx="22" cy="50" r="14" fill="url(#stripes-18)" stroke="black" stroke-width="2"/>
+  <circle cx="50" cy="50" r="14" fill="black" stroke="black" stroke-width="2"/>
+  <circle cx="78" cy="50" r="14" fill="none" stroke="black" stroke-width="2"/>
+</svg>
