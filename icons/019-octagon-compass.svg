@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#0a0a0a" stroke-width="1.5">
+  <defs>
+    <pattern id="dots" width="4" height="4" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.7" fill="#0a0a0a"/>
+    </pattern>
+    <pattern id="hlines" width="3" height="3" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="3" y2="0" stroke="#0a0a0a" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+  <polygon points="22,8 42,8 56,22 56,42 42,56 22,56 8,42 8,22"/>
+  <polygon points="22,8 42,8 56,22 32,32" fill="#0a0a0a" stroke="none"/>
+  <polygon points="56,22 56,42 42,56 32,32" fill="url(#dots)" stroke="none"/>
+  <polygon points="22,56 8,42 8,22 32,32" fill="url(#hlines)" stroke="none"/>
+</svg>

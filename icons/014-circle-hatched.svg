@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#0a0a0a" stroke-width="1.5">
+  <defs>
+    <pattern id="diag2" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="4" stroke="#0a0a0a" stroke-width="0.9"/>
+    </pattern>
+  </defs>
+  <circle cx="32" cy="32" r="24" fill="url(#diag2)"/>
+  <circle cx="32" cy="32" r="24"/>
+</svg>

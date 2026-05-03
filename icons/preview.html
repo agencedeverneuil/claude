@@ -1,41 +1,86 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Librairie d'icônes — Aperçu</title>
+<meta charset="utf-8">
+<title>Iconographie — Aperçu</title>
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#fff; color:#000; margin:40px; }
-  h1 { font-weight:400; letter-spacing:.5px; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:24px; margin-top:32px; }
-  .cell { border:1px solid #e0e0e0; padding:16px; display:flex; flex-direction:column; align-items:center; gap:8px; }
-  .cell img { width:100px; height:100px; }
-  .cell span { font-size:11px; color:#666; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; background:#fafaf8; color:#0a0a0a; margin:0; padding:48px; }
+  h1 { font-weight:300; letter-spacing:-0.01em; font-size:36px; margin:0 0 8px; }
+  h2 { font-weight:400; letter-spacing:0.04em; text-transform:uppercase; font-size:14px; margin:48px 0 16px; padding-bottom:12px; border-bottom:1px solid #0a0a0a; }
+  p { color:#666; max-width:560px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:1px; background:rgba(10,10,10,0.12); border:1px solid rgba(10,10,10,0.12); }
+  .cell { background:#fafaf8; aspect-ratio:1/1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:14px; position:relative; }
+  .cell img { width:64px; height:64px; }
+  .cell .idx { position:absolute; top:8px; left:10px; font-family:"JetBrains Mono",monospace; font-size:9px; color:#999; letter-spacing:0.1em; }
+  .cell .label { font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:#666; text-align:center; }
 </style>
 </head>
 <body>
-  <h1>Librairie d'icônes — style géométrique</h1>
-  <p>20 icônes au format SVG, importables directement dans Figma.</p>
+  <h1>Iconographie — Geometric Library</h1>
+  <p>48 glyphes au format SVG vectoriel · viewBox 64×64 · stroke 1.5 · #0A0A0A. Glissez-déposez les fichiers dans Figma pour les éditer.</p>
+
+  <h2>I · Primitives</h2>
   <div class="grid">
-    <div class="cell"><img src="01-diamond.svg" alt=""><span>01 · diamond</span></div>
-    <div class="cell"><img src="02-circle-split.svg" alt=""><span>02 · circle-split</span></div>
-    <div class="cell"><img src="03-hexagon.svg" alt=""><span>03 · hexagon</span></div>
-    <div class="cell"><img src="04-x-cross.svg" alt=""><span>04 · x-cross</span></div>
-    <div class="cell"><img src="05-triangle.svg" alt=""><span>05 · triangle</span></div>
-    <div class="cell"><img src="06-square-diagonal.svg" alt=""><span>06 · square-diagonal</span></div>
-    <div class="cell"><img src="07-octagon.svg" alt=""><span>07 · octagon</span></div>
-    <div class="cell"><img src="08-star-4-point.svg" alt=""><span>08 · star-4-point</span></div>
-    <div class="cell"><img src="09-pentagon.svg" alt=""><span>09 · pentagon</span></div>
-    <div class="cell"><img src="10-trapezoid.svg" alt=""><span>10 · trapezoid</span></div>
-    <div class="cell"><img src="11-concentric-circles.svg" alt=""><span>11 · concentric</span></div>
-    <div class="cell"><img src="12-plus.svg" alt=""><span>12 · plus</span></div>
-    <div class="cell"><img src="13-arrow.svg" alt=""><span>13 · arrow</span></div>
-    <div class="cell"><img src="14-heart.svg" alt=""><span>14 · heart</span></div>
-    <div class="cell"><img src="15-square-in-square.svg" alt=""><span>15 · square-in-square</span></div>
-    <div class="cell"><img src="16-half-circle.svg" alt=""><span>16 · half-circle</span></div>
-    <div class="cell"><img src="17-triangle-in-circle.svg" alt=""><span>17 · triangle-in-circle</span></div>
-    <div class="cell"><img src="18-three-dots.svg" alt=""><span>18 · three-dots</span></div>
-    <div class="cell"><img src="19-diamond-grid.svg" alt=""><span>19 · diamond-grid</span></div>
-    <div class="cell"><img src="20-mountains.svg" alt=""><span>20 · mountains</span></div>
+    <div class="cell"><span class="idx">001</span><img src="001-square-half-rule.svg"><span class="label">Square / Half-rule</span></div>
+    <div class="cell"><span class="idx">002</span><img src="002-square-bisect.svg"><span class="label">Square / Bisect</span></div>
+    <div class="cell"><span class="idx">003</span><img src="003-square-dot-field.svg"><span class="label">Square / Dot field</span></div>
+    <div class="cell"><span class="idx">004</span><img src="004-square-quartered.svg"><span class="label">Square / Quartered</span></div>
+    <div class="cell"><span class="idx">005</span><img src="005-triangle-cleaved.svg"><span class="label">Triangle / Cleaved</span></div>
+    <div class="cell"><span class="idx">006</span><img src="006-diamond-inversion.svg"><span class="label">Diamond / Inversion</span></div>
+    <div class="cell"><span class="idx">007</span><img src="007-rectangle-banded.svg"><span class="label">Rectangle / Banded</span></div>
+    <div class="cell"><span class="idx">008</span><img src="008-square-nested.svg"><span class="label">Square / Nested</span></div>
+  </div>
+
+  <h2>II · Circular</h2>
+  <div class="grid">
+    <div class="cell"><span class="idx">009</span><img src="009-circle-yin.svg"><span class="label">Circle / Yin</span></div>
+    <div class="cell"><span class="idx">010</span><img src="010-circle-horizon.svg"><span class="label">Circle / Horizon</span></div>
+    <div class="cell"><span class="idx">011</span><img src="011-circle-eclipse.svg"><span class="label">Circle / Eclipse</span></div>
+    <div class="cell"><span class="idx">012</span><img src="012-circle-concentric.svg"><span class="label">Circle / Concentric</span></div>
+    <div class="cell"><span class="idx">013</span><img src="013-circle-trisect.svg"><span class="label">Circle / Trisect</span></div>
+    <div class="cell"><span class="idx">014</span><img src="014-circle-hatched.svg"><span class="label">Circle / Hatched</span></div>
+    <div class="cell"><span class="idx">015</span><img src="015-circle-vesica.svg"><span class="label">Circle / Vesica</span></div>
+    <div class="cell"><span class="idx">016</span><img src="016-circle-halftone.svg"><span class="label">Circle / Halftone</span></div>
+  </div>
+
+  <h2>III · Polygonal</h2>
+  <div class="grid">
+    <div class="cell"><span class="idx">017</span><img src="017-hexagon-pinwheel.svg"><span class="label">Hexagon / Pinwheel</span></div>
+    <div class="cell"><span class="idx">018</span><img src="018-hexagon-faceted.svg"><span class="label">Hexagon / Faceted</span></div>
+    <div class="cell"><span class="idx">019</span><img src="019-octagon-compass.svg"><span class="label">Octagon / Compass</span></div>
+    <div class="cell"><span class="idx">020</span><img src="020-pentagon-star-cut.svg"><span class="label">Pentagon / Star-cut</span></div>
+    <div class="cell"><span class="idx">021</span><img src="021-star-five.svg"><span class="label">Star / Five</span></div>
+    <div class="cell"><span class="idx">022</span><img src="022-compass-cardinal.svg"><span class="label">Compass / Cardinal</span></div>
+    <div class="cell"><span class="idx">023</span><img src="023-hexagon-mesh.svg"><span class="label">Hexagon / Mesh</span></div>
+    <div class="cell"><span class="idx">024</span><img src="024-hexagon-core.svg"><span class="label">Hexagon / Core</span></div>
+  </div>
+
+  <h2>IV · Composite</h2>
+  <div class="grid">
+    <div class="cell"><span class="idx">025</span><img src="025-cross.svg"><span class="label">Cross</span></div>
+    <div class="cell"><span class="idx">026</span><img src="026-saltire.svg"><span class="label">Saltire</span></div>
+    <div class="cell"><span class="idx">027</span><img src="027-arc-stack.svg"><span class="label">Arc Stack</span></div>
+    <div class="cell"><span class="idx">028</span><img src="028-sq-circ.svg"><span class="label">Sq + Circ</span></div>
+    <div class="cell"><span class="idx">029</span><img src="029-hourglass.svg"><span class="label">Hourglass</span></div>
+    <div class="cell"><span class="idx">030</span><img src="030-bowtie.svg"><span class="label">Bowtie</span></div>
+    <div class="cell"><span class="idx">031</span><img src="031-stair.svg"><span class="label">Stair</span></div>
+    <div class="cell"><span class="idx">032</span><img src="032-diamond.svg"><span class="label">Diamond</span></div>
+    <div class="cell"><span class="idx">033</span><img src="033-fan.svg"><span class="label">Fan</span></div>
+    <div class="cell"><span class="idx">034</span><img src="034-stack.svg"><span class="label">Stack</span></div>
+    <div class="cell"><span class="idx">035</span><img src="035-cell.svg"><span class="label">Cell</span></div>
+    <div class="cell"><span class="idx">036</span><img src="036-target.svg"><span class="label">Target</span></div>
+    <div class="cell"><span class="idx">037</span><img src="037-chevron.svg"><span class="label">Chevron</span></div>
+    <div class="cell"><span class="idx">038</span><img src="038-anchor.svg"><span class="label">Anchor</span></div>
+    <div class="cell"><span class="idx">039</span><img src="039-overlap.svg"><span class="label">Overlap</span></div>
+    <div class="cell"><span class="idx">040</span><img src="040-mountains.svg"><span class="label">Mountains</span></div>
+    <div class="cell"><span class="idx">041</span><img src="041-quadrant.svg"><span class="label">Quadrant</span></div>
+    <div class="cell"><span class="idx">042</span><img src="042-slash.svg"><span class="label">Slash</span></div>
+    <div class="cell"><span class="idx">043</span><img src="043-triad.svg"><span class="label">Triad</span></div>
+    <div class="cell"><span class="idx">044</span><img src="044-mirror.svg"><span class="label">Mirror</span></div>
+    <div class="cell"><span class="idx">045</span><img src="045-wedge.svg"><span class="label">Wedge</span></div>
+    <div class="cell"><span class="idx">046</span><img src="046-burst.svg"><span class="label">Burst</span></div>
+    <div class="cell"><span class="idx">047</span><img src="047-lens.svg"><span class="label">Lens</span></div>
+    <div class="cell"><span class="idx">048</span><img src="048-compound.svg"><span class="label">Compound</span></div>
   </div>
 </body>
 </html>

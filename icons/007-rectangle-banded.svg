@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#0a0a0a" stroke-width="1.5">
+  <defs>
+    <pattern id="hlines" width="3" height="3" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="3" y2="0" stroke="#0a0a0a" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+  <rect x="10" y="14" width="44" height="36"/>
+  <rect x="10" y="14" width="44" height="9" fill="#0a0a0a" stroke="none"/>
+  <rect x="10" y="32" width="44" height="9" fill="url(#hlines)" stroke="none"/>
+  <line x1="10" y1="23" x2="54" y2="23"/>
+  <line x1="10" y1="32" x2="54" y2="32"/>
+  <line x1="10" y1="41" x2="54" y2="41"/>
+</svg>

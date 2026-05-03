@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#0a0a0a" stroke-width="1.5">
+  <defs>
+    <pattern id="grid" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path d="M0 0H4M0 0V4" stroke="#0a0a0a" stroke-width="0.6" fill="none"/>
+    </pattern>
+  </defs>
+  <polygon points="32,8 56,20 56,44 32,56 8,44 8,20" fill="url(#grid)"/>
+  <polygon points="32,8 56,20 56,44 32,56 8,44 8,20"/>
+</svg>
