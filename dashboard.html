@@ -1,0 +1,1386 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lumen — SaaS Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Fira Sans"', "system-ui", "sans-serif"],
+              mono: ['"Fira Code"', "ui-monospace", "monospace"],
+            },
+            colors: {
+              ink: {
+                50: "#F8FAFC",
+                100: "#F1F5F9",
+                200: "#E9EEF6",
+                300: "#DBEAFE",
+                500: "#64748B",
+                700: "#334155",
+                900: "#0F172A",
+                950: "#1E3A8A",
+              },
+              brand: {
+                500: "#3B82F6",
+                600: "#2563EB",
+                700: "#1E40AF",
+              },
+              gold: {
+                500: "#F59E0B",
+                600: "#D97706",
+              },
+            },
+            boxShadow: {
+              card: "0 1px 0 0 rgba(15,23,42,0.04), 0 1px 2px 0 rgba(15,23,42,0.04)",
+              ring: "0 0 0 1px rgba(30,64,175,0.12)",
+            },
+            transitionTimingFunction: {
+              soft: "cubic-bezier(0.22, 1, 0.36, 1)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --color-primary: #1e40af;
+        --color-accent: #d97706;
+        --color-background: #f8fafc;
+        --color-foreground: #1e3a8a;
+        --color-muted: #e9eef6;
+        --color-border: #dbeafe;
+      }
+      html {
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      body {
+        background: var(--color-background);
+        color: #0f172a;
+      }
+      /* Tabular numerals for all data figures */
+      .tnum {
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: "tnum";
+      }
+      /* Subtle grid background on hero chart */
+      .grid-bg {
+        background-image: linear-gradient(
+            to right,
+            rgba(30, 64, 175, 0.06) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(30, 64, 175, 0.06) 1px,
+            transparent 1px
+          );
+        background-size: 56px 56px;
+      }
+      /* Smooth focus ring */
+      :where(button, a, input, [tabindex]):focus-visible {
+        outline: 2px solid #1e40af;
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+      /* Scroll bar polish */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #dbeafe;
+        border-radius: 9999px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #bfd5fb;
+      }
+    </style>
+  </head>
+
+  <body class="font-sans text-ink-900 selection:bg-brand-700 selection:text-white">
+    <div class="flex min-h-screen">
+      <!-- ============== SIDEBAR ============== -->
+      <aside
+        class="hidden lg:flex w-64 shrink-0 flex-col border-r border-ink-200 bg-white"
+      >
+        <div class="flex items-center gap-2.5 px-6 h-16 border-b border-ink-200">
+          <div
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-700"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-4 w-4 text-white"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 3v18" />
+              <path d="M3 12h18" />
+              <path d="M5.6 5.6l12.8 12.8" />
+              <path d="M18.4 5.6L5.6 18.4" />
+            </svg>
+          </div>
+          <div class="leading-tight">
+            <p class="text-sm font-semibold tracking-tight">Lumen</p>
+            <p class="text-[11px] text-ink-500 font-mono">v2.5 · prod</p>
+          </div>
+        </div>
+
+        <nav class="flex-1 px-3 py-5 space-y-6">
+          <div>
+            <p
+              class="px-3 mb-2 text-[10px] uppercase tracking-[0.14em] text-ink-500 font-medium"
+            >
+              Workspace
+            </p>
+            <ul class="space-y-0.5">
+              <li>
+                <a
+                  href="#"
+                  class="group flex items-center gap-3 px-3 py-2 rounded-lg bg-brand-700 text-white text-sm font-medium"
+                >
+                  <svg
+                    class="h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="3" y="3" width="7" height="9" rx="1.5" />
+                    <rect x="14" y="3" width="7" height="5" rx="1.5" />
+                    <rect x="14" y="12" width="7" height="9" rx="1.5" />
+                    <rect x="3" y="16" width="7" height="5" rx="1.5" />
+                  </svg>
+                  Overview
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-ink-700 hover:bg-ink-100 transition-colors duration-150 ease-soft"
+                >
+                  <svg
+                    class="h-4 w-4 text-ink-500 group-hover:text-ink-700"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M3 3v18h18" />
+                    <path d="M7 14l4-4 4 4 5-6" />
+                  </svg>
+                  Analytics
+                  <span class="ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded bg-gold-500/15 text-gold-600">NEW</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-ink-700 hover:bg-ink-100 transition-colors duration-150 ease-soft"
+                >
+                  <svg
+                    class="h-4 w-4 text-ink-500 group-hover:text-ink-700"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="9" cy="8" r="3.5" />
+                    <path d="M2 21c.5-3.5 3.5-6 7-6s6.5 2.5 7 6" />
+                    <circle cx="17" cy="6" r="2.5" />
+                    <path d="M22 19c-.3-2.2-2-4-4.5-4" />
+                  </svg>
+                  Customers
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-ink-700 hover:bg-ink-100 transition-colors duration-150 ease-soft"
+                >
+                  <svg
+                    class="h-4 w-4 text-ink-500 group-hover:text-ink-700"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="2" y="6" width="20" height="13" rx="2" />
+                    <path d="M2 10h20" />
+                    <path d="M6 15h4" />
+                  </svg>
+                  Billing
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-ink-700 hover:bg-ink-100 transition-colors duration-150 ease-soft"
+                >
+                  <svg
+                    class="h-4 w-4 text-ink-500 group-hover:text-ink-700"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 2L2 7v10l10 5 10-5V7L12 2z" />
+                    <path d="M2 7l10 5 10-5" />
+                    <path d="M12 12v10" />
+                  </svg>
+                  Integrations
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <p
+              class="px-3 mb-2 text-[10px] uppercase tracking-[0.14em] text-ink-500 font-medium"
+            >
+              Account
+            </p>
+            <ul class="space-y-0.5">
+              <li>
+                <a
+                  href="#"
+                  class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-ink-700 hover:bg-ink-100 transition-colors duration-150 ease-soft"
+                >
+                  <svg
+                    class="h-4 w-4 text-ink-500 group-hover:text-ink-700"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
+                  </svg>
+                  Settings
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-ink-700 hover:bg-ink-100 transition-colors duration-150 ease-soft"
+                >
+                  <svg
+                    class="h-4 w-4 text-ink-500 group-hover:text-ink-700"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M9.1 9a3 3 0 1 1 5.8 1c0 2-3 2.5-3 4" />
+                    <path d="M12 17h.01" />
+                  </svg>
+                  Help &amp; Docs
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Upgrade card -->
+        <div class="mx-3 mb-4 rounded-xl border border-ink-200 bg-gradient-to-br from-ink-50 to-ink-100 p-4">
+          <div class="flex items-start gap-2">
+            <div
+              class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-gold-500 text-white"
+            >
+              <svg
+                class="h-3.5 w-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />
+              </svg>
+            </div>
+            <div class="leading-tight">
+              <p class="text-[13px] font-semibold">Upgrade to Scale</p>
+              <p class="text-[11px] text-ink-500 mt-0.5">
+                Unlock cohort retention, custom dashboards &amp; SLA support.
+              </p>
+            </div>
+          </div>
+          <button
+            class="mt-3 w-full rounded-md bg-ink-900 text-white text-xs font-medium py-2 hover:bg-ink-700 transition-colors duration-150 ease-soft cursor-pointer"
+          >
+            View plans
+          </button>
+        </div>
+      </aside>
+
+      <!-- ============== MAIN ============== -->
+      <div class="flex-1 flex flex-col min-w-0">
+        <!-- Topbar -->
+        <header
+          class="sticky top-0 z-30 flex items-center justify-between gap-4 px-6 lg:px-8 h-16 border-b border-ink-200 bg-white/80 backdrop-blur-md"
+        >
+          <div class="flex items-center gap-3 min-w-0">
+            <button
+              class="lg:hidden p-2 rounded-md hover:bg-ink-100 cursor-pointer"
+              aria-label="Open menu"
+            >
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 6h18M3 12h18M3 18h18" />
+              </svg>
+            </button>
+            <nav
+              aria-label="breadcrumb"
+              class="hidden md:flex items-center gap-1.5 text-sm text-ink-500"
+            >
+              <a href="#" class="hover:text-ink-900 transition-colors">Workspace</a>
+              <svg
+                class="h-3.5 w-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+              <span class="text-ink-900 font-medium">Overview</span>
+            </nav>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <div class="relative hidden sm:block">
+              <svg
+                class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-500"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="M21 21l-4.3-4.3" />
+              </svg>
+              <input
+                type="search"
+                placeholder="Search metrics, customers…"
+                class="w-64 pl-9 pr-12 py-2 rounded-lg border border-ink-200 bg-ink-50 text-sm placeholder:text-ink-500 focus:bg-white focus:border-brand-700 focus:outline-none transition-colors"
+              />
+              <kbd
+                class="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-mono rounded border border-ink-200 bg-white text-ink-500"
+                >⌘K</kbd
+              >
+            </div>
+
+            <button
+              class="relative p-2 rounded-md hover:bg-ink-100 transition-colors duration-150 ease-soft cursor-pointer"
+              aria-label="Notifications"
+            >
+              <svg
+                class="h-5 w-5 text-ink-700"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a2 2 0 0 0 3.4 0" />
+              </svg>
+              <span
+                class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-gold-600 ring-2 ring-white"
+              ></span>
+            </button>
+
+            <div class="h-6 w-px bg-ink-200 mx-1"></div>
+
+            <button
+              class="flex items-center gap-2.5 pl-1 pr-2.5 py-1 rounded-full hover:bg-ink-100 transition-colors duration-150 ease-soft cursor-pointer"
+            >
+              <span
+                class="flex h-7 w-7 items-center justify-center rounded-full bg-brand-700 text-white text-[11px] font-semibold"
+                >AC</span
+              >
+              <span class="hidden sm:block text-sm font-medium text-ink-900">
+                Adèle C.
+              </span>
+              <svg
+                class="h-3.5 w-3.5 text-ink-500"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Main content -->
+        <main class="flex-1 px-6 lg:px-8 py-8 max-w-[1400px] w-full mx-auto">
+          <!-- Page header -->
+          <div
+            class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8"
+          >
+            <div>
+              <p class="text-sm text-ink-500 font-mono">DASHBOARD · OVERVIEW</p>
+              <h1 class="mt-1 text-3xl font-semibold tracking-tight">
+                Bienvenue, Adèle.
+              </h1>
+              <p class="mt-1 text-sm text-ink-500 max-w-lg">
+                Voici la performance de Lumen sur les 30 derniers jours.
+                <a
+                  href="#"
+                  class="text-brand-700 font-medium hover:underline underline-offset-2"
+                  >Voir le rapport complet →</a
+                >
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <div
+                role="tablist"
+                class="inline-flex p-1 rounded-lg border border-ink-200 bg-white"
+              >
+                <button
+                  role="tab"
+                  class="px-3 py-1.5 text-xs font-medium text-ink-500 hover:text-ink-900 rounded-md transition-colors cursor-pointer"
+                >
+                  7j
+                </button>
+                <button
+                  role="tab"
+                  aria-selected="true"
+                  class="px-3 py-1.5 text-xs font-medium text-white bg-ink-900 rounded-md cursor-pointer"
+                >
+                  30j
+                </button>
+                <button
+                  role="tab"
+                  class="px-3 py-1.5 text-xs font-medium text-ink-500 hover:text-ink-900 rounded-md transition-colors cursor-pointer"
+                >
+                  90j
+                </button>
+                <button
+                  role="tab"
+                  class="px-3 py-1.5 text-xs font-medium text-ink-500 hover:text-ink-900 rounded-md transition-colors cursor-pointer"
+                >
+                  12m
+                </button>
+              </div>
+              <button
+                class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg border border-ink-200 bg-white hover:bg-ink-50 transition-colors duration-150 ease-soft cursor-pointer"
+              >
+                <svg
+                  class="h-3.5 w-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <path d="M7 10l5 5 5-5" />
+                  <path d="M12 15V3" />
+                </svg>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI cards -->
+          <section
+            aria-label="Key metrics"
+            class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8"
+          >
+            <!-- Card 1 -->
+            <article
+              class="group relative rounded-xl border border-ink-200 bg-white p-5 shadow-card hover:shadow-ring transition-shadow duration-200 ease-soft"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-medium text-ink-500 uppercase tracking-wider">
+                  MRR
+                </p>
+                <div
+                  class="flex h-7 w-7 items-center justify-center rounded-md bg-brand-700/10 text-brand-700"
+                >
+                  <svg
+                    class="h-3.5 w-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 1v22" />
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6" />
+                  </svg>
+                </div>
+              </div>
+              <p class="mt-3 text-3xl font-semibold tnum tracking-tight">
+                €248,930
+              </p>
+              <div class="mt-2 flex items-center gap-2">
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 px-2 py-0.5 text-[11px] font-medium font-mono"
+                >
+                  <svg
+                    class="h-3 w-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M7 17l9-9" />
+                    <path d="M8 8h8v8" />
+                  </svg>
+                  +12.4%
+                </span>
+                <span class="text-[11px] text-ink-500">vs. mois dernier</span>
+              </div>
+              <!-- sparkline -->
+              <svg
+                class="mt-4 h-10 w-full"
+                viewBox="0 0 200 40"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient id="sg1" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#1E40AF" stop-opacity="0.18" />
+                    <stop offset="100%" stop-color="#1E40AF" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0,30 L20,28 L40,32 L60,24 L80,26 L100,18 L120,20 L140,12 L160,16 L180,8 L200,6 L200,40 L0,40 Z"
+                  fill="url(#sg1)"
+                />
+                <path
+                  d="M0,30 L20,28 L40,32 L60,24 L80,26 L100,18 L120,20 L140,12 L160,16 L180,8 L200,6"
+                  fill="none"
+                  stroke="#1E40AF"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </article>
+
+            <!-- Card 2 -->
+            <article
+              class="group relative rounded-xl border border-ink-200 bg-white p-5 shadow-card hover:shadow-ring transition-shadow duration-200 ease-soft"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-medium text-ink-500 uppercase tracking-wider">
+                  Active users
+                </p>
+                <div
+                  class="flex h-7 w-7 items-center justify-center rounded-md bg-brand-700/10 text-brand-700"
+                >
+                  <svg
+                    class="h-3.5 w-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="9" cy="8" r="3.5" />
+                    <path d="M2 21c.5-3.5 3.5-6 7-6s6.5 2.5 7 6" />
+                    <circle cx="17" cy="6" r="2.5" />
+                  </svg>
+                </div>
+              </div>
+              <p class="mt-3 text-3xl font-semibold tnum tracking-tight">
+                14,629
+              </p>
+              <div class="mt-2 flex items-center gap-2">
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 px-2 py-0.5 text-[11px] font-medium font-mono"
+                >
+                  <svg
+                    class="h-3 w-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M7 17l9-9" />
+                    <path d="M8 8h8v8" />
+                  </svg>
+                  +5.7%
+                </span>
+                <span class="text-[11px] text-ink-500">vs. mois dernier</span>
+              </div>
+              <svg
+                class="mt-4 h-10 w-full"
+                viewBox="0 0 200 40"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient id="sg2" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#1E40AF" stop-opacity="0.18" />
+                    <stop offset="100%" stop-color="#1E40AF" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0,24 L20,26 L40,22 L60,28 L80,20 L100,22 L120,16 L140,18 L160,14 L180,16 L200,10 L200,40 L0,40 Z"
+                  fill="url(#sg2)"
+                />
+                <path
+                  d="M0,24 L20,26 L40,22 L60,28 L80,20 L100,22 L120,16 L140,18 L160,14 L180,16 L200,10"
+                  fill="none"
+                  stroke="#1E40AF"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </article>
+
+            <!-- Card 3 - Conversion -->
+            <article
+              class="group relative rounded-xl border border-ink-200 bg-white p-5 shadow-card hover:shadow-ring transition-shadow duration-200 ease-soft"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-medium text-ink-500 uppercase tracking-wider">
+                  Trial → Paid
+                </p>
+                <div
+                  class="flex h-7 w-7 items-center justify-center rounded-md bg-gold-600/10 text-gold-600"
+                >
+                  <svg
+                    class="h-3.5 w-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M22 12l-4-4v3h-7v2h7v3l4-4z" />
+                    <path d="M2 12l4-4v3h7v2H6v3l-4-4z" />
+                  </svg>
+                </div>
+              </div>
+              <p class="mt-3 text-3xl font-semibold tnum tracking-tight">
+                34.8<span class="text-xl text-ink-500">%</span>
+              </p>
+              <div class="mt-2 flex items-center gap-2">
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 px-2 py-0.5 text-[11px] font-medium font-mono"
+                >
+                  <svg
+                    class="h-3 w-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M7 17l9-9" />
+                    <path d="M8 8h8v8" />
+                  </svg>
+                  +2.1pp
+                </span>
+                <span class="text-[11px] text-ink-500">vs. mois dernier</span>
+              </div>
+              <svg
+                class="mt-4 h-10 w-full"
+                viewBox="0 0 200 40"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient id="sg3" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#D97706" stop-opacity="0.22" />
+                    <stop offset="100%" stop-color="#D97706" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0,28 L20,24 L40,26 L60,20 L80,22 L100,16 L120,18 L140,14 L160,16 L180,10 L200,12 L200,40 L0,40 Z"
+                  fill="url(#sg3)"
+                />
+                <path
+                  d="M0,28 L20,24 L40,26 L60,20 L80,22 L100,16 L120,18 L140,14 L160,16 L180,10 L200,12"
+                  fill="none"
+                  stroke="#D97706"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </article>
+
+            <!-- Card 4 - Churn -->
+            <article
+              class="group relative rounded-xl border border-ink-200 bg-white p-5 shadow-card hover:shadow-ring transition-shadow duration-200 ease-soft"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-medium text-ink-500 uppercase tracking-wider">
+                  Net churn
+                </p>
+                <div
+                  class="flex h-7 w-7 items-center justify-center rounded-md bg-rose-50 text-rose-600"
+                >
+                  <svg
+                    class="h-3.5 w-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M3 7l9 9 4-4 5 5" />
+                    <path d="M21 17v-5h-5" />
+                  </svg>
+                </div>
+              </div>
+              <p class="mt-3 text-3xl font-semibold tnum tracking-tight">
+                1.42<span class="text-xl text-ink-500">%</span>
+              </p>
+              <div class="mt-2 flex items-center gap-2">
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 px-2 py-0.5 text-[11px] font-medium font-mono"
+                >
+                  <svg
+                    class="h-3 w-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M17 7L8 16" />
+                    <path d="M16 16H8V8" />
+                  </svg>
+                  −0.3pp
+                </span>
+                <span class="text-[11px] text-ink-500">vs. mois dernier</span>
+              </div>
+              <svg
+                class="mt-4 h-10 w-full"
+                viewBox="0 0 200 40"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient id="sg4" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#DC2626" stop-opacity="0.16" />
+                    <stop offset="100%" stop-color="#DC2626" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0,12 L20,16 L40,14 L60,20 L80,18 L100,22 L120,20 L140,26 L160,24 L180,28 L200,26 L200,40 L0,40 Z"
+                  fill="url(#sg4)"
+                />
+                <path
+                  d="M0,12 L20,16 L40,14 L60,20 L80,18 L100,22 L120,20 L140,26 L160,24 L180,28 L200,26"
+                  fill="none"
+                  stroke="#DC2626"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </article>
+          </section>
+
+          <!-- Chart + side panel -->
+          <section class="grid grid-cols-1 xl:grid-cols-3 gap-4 mb-8">
+            <!-- Revenue chart -->
+            <article
+              class="xl:col-span-2 rounded-xl border border-ink-200 bg-white shadow-card overflow-hidden"
+            >
+              <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-ink-200"
+              >
+                <div>
+                  <h2 class="text-base font-semibold tracking-tight">
+                    Revenue & Sign-ups
+                  </h2>
+                  <p class="text-xs text-ink-500 mt-0.5">
+                    Daily aggregate · UTC · last 30 days
+                  </p>
+                </div>
+                <div class="flex items-center gap-4 text-xs">
+                  <span class="inline-flex items-center gap-1.5 text-ink-700">
+                    <span class="h-2 w-2 rounded-full bg-brand-700"></span>
+                    Revenue
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 text-ink-700">
+                    <span class="h-2 w-2 rounded-full bg-gold-500"></span>
+                    Sign-ups
+                  </span>
+                </div>
+              </div>
+
+              <div class="p-6 grid-bg">
+                <svg
+                  viewBox="0 0 800 280"
+                  class="w-full h-[280px]"
+                  preserveAspectRatio="none"
+                  role="img"
+                  aria-label="Daily revenue and sign-ups over 30 days"
+                >
+                  <defs>
+                    <linearGradient id="rev" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#1E40AF" stop-opacity="0.20" />
+                      <stop offset="100%" stop-color="#1E40AF" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Y axis ticks -->
+                  <g font-family="Fira Code" font-size="10" fill="#64748B">
+                    <text x="6" y="40">€10k</text>
+                    <text x="6" y="100">€7k</text>
+                    <text x="6" y="160">€4k</text>
+                    <text x="6" y="220">€1k</text>
+                  </g>
+
+                  <!-- Revenue area -->
+                  <path
+                    d="M40,200 L66,180 L92,190 L118,150 L144,170 L170,140 L196,160 L222,120 L248,140 L274,110 L300,130 L326,90 L352,110 L378,100 L404,80 L430,120 L456,90 L482,70 L508,90 L534,60 L560,80 L586,50 L612,70 L638,40 L664,55 L690,30 L716,50 L742,25 L768,40 L780,30 L780,260 L40,260 Z"
+                    fill="url(#rev)"
+                  />
+                  <path
+                    d="M40,200 L66,180 L92,190 L118,150 L144,170 L170,140 L196,160 L222,120 L248,140 L274,110 L300,130 L326,90 L352,110 L378,100 L404,80 L430,120 L456,90 L482,70 L508,90 L534,60 L560,80 L586,50 L612,70 L638,40 L664,55 L690,30 L716,50 L742,25 L768,40 L780,30"
+                    fill="none"
+                    stroke="#1E40AF"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+
+                  <!-- Sign-ups bars -->
+                  <g fill="#F59E0B" opacity="0.9">
+                    <rect x="46" y="220" width="6" height="40" rx="1" />
+                    <rect x="72" y="210" width="6" height="50" rx="1" />
+                    <rect x="98" y="225" width="6" height="35" rx="1" />
+                    <rect x="124" y="200" width="6" height="60" rx="1" />
+                    <rect x="150" y="215" width="6" height="45" rx="1" />
+                    <rect x="176" y="195" width="6" height="65" rx="1" />
+                    <rect x="202" y="220" width="6" height="40" rx="1" />
+                    <rect x="228" y="190" width="6" height="70" rx="1" />
+                    <rect x="254" y="205" width="6" height="55" rx="1" />
+                    <rect x="280" y="180" width="6" height="80" rx="1" />
+                    <rect x="306" y="195" width="6" height="65" rx="1" />
+                    <rect x="332" y="170" width="6" height="90" rx="1" />
+                    <rect x="358" y="190" width="6" height="70" rx="1" />
+                    <rect x="384" y="175" width="6" height="85" rx="1" />
+                    <rect x="410" y="160" width="6" height="100" rx="1" />
+                    <rect x="436" y="180" width="6" height="80" rx="1" />
+                    <rect x="462" y="165" width="6" height="95" rx="1" />
+                    <rect x="488" y="150" width="6" height="110" rx="1" />
+                    <rect x="514" y="170" width="6" height="90" rx="1" />
+                    <rect x="540" y="145" width="6" height="115" rx="1" />
+                    <rect x="566" y="160" width="6" height="100" rx="1" />
+                    <rect x="592" y="135" width="6" height="125" rx="1" />
+                    <rect x="618" y="150" width="6" height="110" rx="1" />
+                    <rect x="644" y="125" width="6" height="135" rx="1" />
+                    <rect x="670" y="140" width="6" height="120" rx="1" />
+                    <rect x="696" y="118" width="6" height="142" rx="1" />
+                    <rect x="722" y="135" width="6" height="125" rx="1" />
+                    <rect x="748" y="115" width="6" height="145" rx="1" />
+                  </g>
+
+                  <!-- Highlight last point -->
+                  <circle cx="780" cy="30" r="5" fill="#FFFFFF" stroke="#1E40AF" stroke-width="2.5"/>
+                </svg>
+
+                <div class="flex items-center justify-between mt-2 text-[10px] font-mono text-ink-500">
+                  <span>Apr 4</span>
+                  <span>Apr 11</span>
+                  <span>Apr 18</span>
+                  <span>Apr 25</span>
+                  <span>May 2</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Plan distribution -->
+            <article
+              class="rounded-xl border border-ink-200 bg-white shadow-card p-6"
+            >
+              <div class="flex items-center justify-between">
+                <h2 class="text-base font-semibold tracking-tight">
+                  Plan distribution
+                </h2>
+                <button
+                  class="p-1 rounded hover:bg-ink-100 cursor-pointer"
+                  aria-label="More"
+                >
+                  <svg
+                    class="h-4 w-4 text-ink-500"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <circle cx="5" cy="12" r="1.6" />
+                    <circle cx="12" cy="12" r="1.6" />
+                    <circle cx="19" cy="12" r="1.6" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Donut -->
+              <div class="flex items-center justify-center my-6">
+                <svg viewBox="0 0 120 120" class="h-44 w-44 -rotate-90">
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="48"
+                    fill="none"
+                    stroke="#E9EEF6"
+                    stroke-width="14"
+                  />
+                  <!-- 52% Scale (blue) -->
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="48"
+                    fill="none"
+                    stroke="#1E40AF"
+                    stroke-width="14"
+                    stroke-dasharray="156.8 301.6"
+                    stroke-dashoffset="0"
+                    stroke-linecap="butt"
+                  />
+                  <!-- 31% Pro (gold) -->
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="48"
+                    fill="none"
+                    stroke="#D97706"
+                    stroke-width="14"
+                    stroke-dasharray="93.5 301.6"
+                    stroke-dashoffset="-156.8"
+                    stroke-linecap="butt"
+                  />
+                  <!-- 17% Free (slate) -->
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="48"
+                    fill="none"
+                    stroke="#94A3B8"
+                    stroke-width="14"
+                    stroke-dasharray="51.3 301.6"
+                    stroke-dashoffset="-250.3"
+                    stroke-linecap="butt"
+                  />
+                </svg>
+              </div>
+
+              <ul class="space-y-3">
+                <li class="flex items-center justify-between text-sm">
+                  <span class="inline-flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-sm bg-brand-700"></span>
+                    Scale
+                  </span>
+                  <span class="font-mono text-ink-700">52% · 7,607</span>
+                </li>
+                <li class="flex items-center justify-between text-sm">
+                  <span class="inline-flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-sm bg-gold-600"></span>
+                    Pro
+                  </span>
+                  <span class="font-mono text-ink-700">31% · 4,535</span>
+                </li>
+                <li class="flex items-center justify-between text-sm">
+                  <span class="inline-flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-sm bg-slate-400"></span>
+                    Free
+                  </span>
+                  <span class="font-mono text-ink-700">17% · 2,487</span>
+                </li>
+              </ul>
+            </article>
+          </section>
+
+          <!-- Activity table + Top customers -->
+          <section class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+            <!-- Activity -->
+            <article
+              class="xl:col-span-2 rounded-xl border border-ink-200 bg-white shadow-card overflow-hidden"
+            >
+              <div
+                class="flex items-center justify-between px-6 py-5 border-b border-ink-200"
+              >
+                <div>
+                  <h2 class="text-base font-semibold tracking-tight">
+                    Recent activity
+                  </h2>
+                  <p class="text-xs text-ink-500 mt-0.5">
+                    Live · auto-refresh every 30s
+                  </p>
+                </div>
+                <a
+                  href="#"
+                  class="text-xs font-medium text-brand-700 hover:underline underline-offset-2"
+                  >View all →</a
+                >
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr
+                      class="text-left text-[11px] uppercase tracking-wider text-ink-500 bg-ink-50/60"
+                    >
+                      <th class="px-6 py-3 font-medium">Customer</th>
+                      <th class="px-6 py-3 font-medium">Event</th>
+                      <th class="px-6 py-3 font-medium">Plan</th>
+                      <th class="px-6 py-3 font-medium text-right">Amount</th>
+                      <th class="px-6 py-3 font-medium text-right">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-ink-200">
+                    <tr class="hover:bg-ink-50/60 transition-colors">
+                      <td class="px-6 py-3.5">
+                        <div class="flex items-center gap-3">
+                          <span
+                            class="flex h-8 w-8 items-center justify-center rounded-full bg-brand-700 text-white text-[11px] font-semibold"
+                            >NM</span
+                          >
+                          <div class="leading-tight">
+                            <p class="font-medium">Noémie Martin</p>
+                            <p class="text-[11px] text-ink-500 font-mono">
+                              noemie@northwave.io
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-3.5">
+                        <span
+                          class="inline-flex items-center gap-1 rounded-md bg-emerald-50 text-emerald-700 px-2 py-0.5 text-[11px] font-medium"
+                          >Upgrade</span
+                        >
+                      </td>
+                      <td class="px-6 py-3.5 text-ink-700">Scale annual</td>
+                      <td class="px-6 py-3.5 text-right tnum font-mono">
+                        +€2,388
+                      </td>
+                      <td class="px-6 py-3.5 text-right text-ink-500 font-mono text-[11px]">
+                        2 min ago
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-ink-50/60 transition-colors">
+                      <td class="px-6 py-3.5">
+                        <div class="flex items-center gap-3">
+                          <span
+                            class="flex h-8 w-8 items-center justify-center rounded-full bg-gold-600 text-white text-[11px] font-semibold"
+                            >RV</span
+                          >
+                          <div class="leading-tight">
+                            <p class="font-medium">Raphaël Vidal</p>
+                            <p class="text-[11px] text-ink-500 font-mono">
+                              r.vidal@kobaltlabs.com
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-3.5">
+                        <span
+                          class="inline-flex items-center gap-1 rounded-md bg-blue-50 text-blue-700 px-2 py-0.5 text-[11px] font-medium"
+                          >New</span
+                        >
+                      </td>
+                      <td class="px-6 py-3.5 text-ink-700">Pro monthly</td>
+                      <td class="px-6 py-3.5 text-right tnum font-mono">
+                        +€89
+                      </td>
+                      <td class="px-6 py-3.5 text-right text-ink-500 font-mono text-[11px]">
+                        14 min ago
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-ink-50/60 transition-colors">
+                      <td class="px-6 py-3.5">
+                        <div class="flex items-center gap-3">
+                          <span
+                            class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-700 text-white text-[11px] font-semibold"
+                            >SK</span
+                          >
+                          <div class="leading-tight">
+                            <p class="font-medium">Sora Kim</p>
+                            <p class="text-[11px] text-ink-500 font-mono">
+                              sora@hexafold.dev
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-3.5">
+                        <span
+                          class="inline-flex items-center gap-1 rounded-md bg-rose-50 text-rose-700 px-2 py-0.5 text-[11px] font-medium"
+                          >Cancel</span
+                        >
+                      </td>
+                      <td class="px-6 py-3.5 text-ink-700">Pro annual</td>
+                      <td class="px-6 py-3.5 text-right tnum font-mono text-rose-600">
+                        −€948
+                      </td>
+                      <td class="px-6 py-3.5 text-right text-ink-500 font-mono text-[11px]">
+                        38 min ago
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-ink-50/60 transition-colors">
+                      <td class="px-6 py-3.5">
+                        <div class="flex items-center gap-3">
+                          <span
+                            class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 text-white text-[11px] font-semibold"
+                            >LD</span
+                          >
+                          <div class="leading-tight">
+                            <p class="font-medium">Léa Doumbé</p>
+                            <p class="text-[11px] text-ink-500 font-mono">
+                              lea@studiopapaye.fr
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-3.5">
+                        <span
+                          class="inline-flex items-center gap-1 rounded-md bg-emerald-50 text-emerald-700 px-2 py-0.5 text-[11px] font-medium"
+                          >Upgrade</span
+                        >
+                      </td>
+                      <td class="px-6 py-3.5 text-ink-700">Scale monthly</td>
+                      <td class="px-6 py-3.5 text-right tnum font-mono">
+                        +€199
+                      </td>
+                      <td class="px-6 py-3.5 text-right text-ink-500 font-mono text-[11px]">
+                        1 h ago
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-ink-50/60 transition-colors">
+                      <td class="px-6 py-3.5">
+                        <div class="flex items-center gap-3">
+                          <span
+                            class="flex h-8 w-8 items-center justify-center rounded-full bg-violet-600 text-white text-[11px] font-semibold"
+                            >TM</span
+                          >
+                          <div class="leading-tight">
+                            <p class="font-medium">Théo Marchetti</p>
+                            <p class="text-[11px] text-ink-500 font-mono">
+                              theo@orbital-cdn.com
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-3.5">
+                        <span
+                          class="inline-flex items-center gap-1 rounded-md bg-amber-50 text-amber-700 px-2 py-0.5 text-[11px] font-medium"
+                          >Trial</span
+                        >
+                      </td>
+                      <td class="px-6 py-3.5 text-ink-700">14-day Pro</td>
+                      <td class="px-6 py-3.5 text-right tnum font-mono text-ink-500">
+                        —
+                      </td>
+                      <td class="px-6 py-3.5 text-right text-ink-500 font-mono text-[11px]">
+                        3 h ago
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <!-- Top customers -->
+            <article
+              class="rounded-xl border border-ink-200 bg-white shadow-card p-6"
+            >
+              <div class="flex items-center justify-between">
+                <h2 class="text-base font-semibold tracking-tight">
+                  Top customers
+                </h2>
+                <span
+                  class="text-[10px] font-mono uppercase tracking-wider text-ink-500"
+                  >by ARR</span
+                >
+              </div>
+
+              <ul class="mt-4 space-y-1">
+                <li
+                  class="flex items-center justify-between gap-3 px-2 py-2.5 rounded-lg hover:bg-ink-50 transition-colors cursor-pointer"
+                >
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span
+                      class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-700 text-white text-[12px] font-semibold"
+                      >NW</span
+                    >
+                    <div class="min-w-0">
+                      <p class="text-sm font-medium truncate">Northwave</p>
+                      <p class="text-[11px] text-ink-500 font-mono">
+                        Scale · 320 seats
+                      </p>
+                    </div>
+                  </div>
+                  <span class="text-sm font-mono tnum">€86,400</span>
+                </li>
+                <li
+                  class="flex items-center justify-between gap-3 px-2 py-2.5 rounded-lg hover:bg-ink-50 transition-colors cursor-pointer"
+                >
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span
+                      class="flex h-9 w-9 items-center justify-center rounded-lg bg-gold-600 text-white text-[12px] font-semibold"
+                      >KL</span
+                    >
+                    <div class="min-w-0">
+                      <p class="text-sm font-medium truncate">Kobalt Labs</p>
+                      <p class="text-[11px] text-ink-500 font-mono">
+                        Scale · 240 seats
+                      </p>
+                    </div>
+                  </div>
+                  <span class="text-sm font-mono tnum">€64,800</span>
+                </li>
+                <li
+                  class="flex items-center justify-between gap-3 px-2 py-2.5 rounded-lg hover:bg-ink-50 transition-colors cursor-pointer"
+                >
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span
+                      class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white text-[12px] font-semibold"
+                      >HX</span
+                    >
+                    <div class="min-w-0">
+                      <p class="text-sm font-medium truncate">Hexafold</p>
+                      <p class="text-[11px] text-ink-500 font-mono">
+                        Scale · 180 seats
+                      </p>
+                    </div>
+                  </div>
+                  <span class="text-sm font-mono tnum">€48,600</span>
+                </li>
+                <li
+                  class="flex items-center justify-between gap-3 px-2 py-2.5 rounded-lg hover:bg-ink-50 transition-colors cursor-pointer"
+                >
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span
+                      class="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-600 text-white text-[12px] font-semibold"
+                      >OB</span
+                    >
+                    <div class="min-w-0">
+                      <p class="text-sm font-medium truncate">Orbital CDN</p>
+                      <p class="text-[11px] text-ink-500 font-mono">
+                        Pro · 92 seats
+                      </p>
+                    </div>
+                  </div>
+                  <span class="text-sm font-mono tnum">€24,840</span>
+                </li>
+                <li
+                  class="flex items-center justify-between gap-3 px-2 py-2.5 rounded-lg hover:bg-ink-50 transition-colors cursor-pointer"
+                >
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span
+                      class="flex h-9 w-9 items-center justify-center rounded-lg bg-rose-600 text-white text-[12px] font-semibold"
+                      >SP</span
+                    >
+                    <div class="min-w-0">
+                      <p class="text-sm font-medium truncate">Studio Papaye</p>
+                      <p class="text-[11px] text-ink-500 font-mono">
+                        Pro · 64 seats
+                      </p>
+                    </div>
+                  </div>
+                  <span class="text-sm font-mono tnum">€17,280</span>
+                </li>
+              </ul>
+
+              <button
+                class="mt-5 w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-ink-700 rounded-lg border border-ink-200 hover:bg-ink-50 transition-colors duration-150 ease-soft cursor-pointer"
+              >
+                See full leaderboard
+                <svg
+                  class="h-3.5 w-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="M13 6l6 6-6 6" />
+                </svg>
+              </button>
+            </article>
+          </section>
+
+          <footer
+            class="mt-10 pt-6 border-t border-ink-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] text-ink-500 font-mono"
+          >
+            <p>© 2026 Lumen Analytics · all data simulated</p>
+            <p>
+              build
+              <span class="text-ink-700">a4f8c2</span>
+              · region
+              <span class="text-ink-700">eu-west-3</span>
+            </p>
+          </footer>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
