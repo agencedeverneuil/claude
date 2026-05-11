@@ -5,12 +5,19 @@
         "source": "github",
         "repo": "ruvnet/ruflo"
       }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
     }
   },
   "enabledPlugins": {
     "ruflo-core@ruflo": true,
     "ruflo-swarm@ruflo": true,
     "ruflo-autopilot@ruflo": true,
-    "ruflo-federation@ruflo": true
+    "ruflo-federation@ruflo": true,
+    "searchfit-seo@claude-plugins-official": true
   }
 }
