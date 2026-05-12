@@ -1,0 +1,14 @@
+{
+  "name": "Outil UX/UI Templates",
+  "short_name": "UX/UI",
+  "description": "Tous les templates UX/UI à un seul endroit, avec checklists et todo list.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FAF9F5",
+  "theme_color": "#C96442",
+  "lang": "fr",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
