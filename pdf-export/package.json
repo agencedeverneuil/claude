@@ -1,0 +1,15 @@
+{
+  "name": "thomasbordron-pdf-export",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Export thomasbordron.com (or any site) into a PDF using a real headless browser.",
+  "scripts": {
+    "export": "node export.js",
+    "export:all": "node export.js --all",
+    "export:home": "node export.js"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "puppeteer": "^24.0.0"
+  }
+}
